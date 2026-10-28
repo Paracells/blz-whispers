@@ -1,0 +1,9 @@
+# Local artefacts
+_site/
+node_modules/
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini

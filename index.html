@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>whispers — a musicdisk by blz</title>
+  <meta name="description" content="blz's whispers, the 2002 Razor 1911 musicdisk: twelve XM modules for twelve months and four painted seasons, played live in the browser with libopenmpt.">
+  <meta name="theme-color" content="#080a09">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/cormorant-garamond-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/jost.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/art/cover.jpg" as="image">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-view="cover" data-season="fall" data-month="9">
+  <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.4v13.2L19 12 8 5.4Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="7" y="5" width="3.3" height="14" rx="1" fill="currentColor" stroke="none"/><rect x="13.7" y="5" width="3.3" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 24 24"><path d="M6.5 5.5v13" stroke="currentColor"/><path d="M19 6.2 9.5 12l9.5 5.8V6.2Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="M17.5 5.5v13" stroke="currentColor"/><path d="M5 6.2l9.5 5.8L5 17.8V6.2Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 1.8 4 4-4 4M3 11V9.8a4 4 0 0 1 4-4h14M7 22.2l-4-4 4-4M21 13v1.2a4 4 0 0 1-4 4H3" stroke="currentColor"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6.5 9H3v6h3.5L11 19V5Z" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.4 5.7a9 9 0 0 1 0 12.6" stroke="currentColor"/></symbol>
+    <symbol id="i-volume-low" viewBox="0 0 24 24"><path d="M11 5 6.5 9H3v6h3.5L11 19V5Z" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor"/></symbol>
+    <symbol id="i-volume-mute" viewBox="0 0 24 24"><path d="M11 5 6.5 9H3v6h3.5L11 19V5Z" fill="currentColor" stroke="none"/><path d="m16 9 5 6M21 9l-5 6" stroke="currentColor"/></symbol>
+    <symbol id="i-fullscreen" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M3 16v5h5" stroke="currentColor"/></symbol>
+    <symbol id="i-compress" viewBox="0 0 24 24"><path d="M8 3v5H3M16 3v5h5M21 16h-5v5M3 16h5v5" stroke="currentColor"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M20 12H4M10 6l-6 6 6 6" stroke="currentColor"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h16M14 6l6 6-6 6" stroke="currentColor"/></symbol>
+    <symbol id="i-cover" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2" stroke="currentColor"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2" stroke="currentColor"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2" stroke="currentColor"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.2" stroke="currentColor"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" stroke="currentColor"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" stroke="currentColor"/><path d="M12 11v5.5M12 7.8v.4" stroke="currentColor"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M3 16v5h5" stroke="currentColor"/></symbol>
+  </svg>
+
+  <div class="backdrop" aria-hidden="true">
+    <div class="backdrop__layer is-active" id="backdropA" style="background-image:url('assets/art/cover.jpg')"></div>
+    <div class="backdrop__layer" id="backdropB"></div>
+    <div class="backdrop__veil"></div>
+    <div class="backdrop__grain"></div>
+  </div>
+
+  <div class="app" id="app">
+    <section class="view cover-view" id="coverView" aria-labelledby="coverTitle">
+      <header class="site-header">
+        <div class="site-header__brand">
+          <span class="brand-glyph" aria-hidden="true">w</span>
+          <span>blz's whispers</span>
+        </div>
+        <div class="site-header__meta">
+          <span class="site-header__edition">Razor 1911 <span class="dot">·</span> MMII</span>
+          <button class="text-link" id="aboutBtn" type="button">about the disk</button>
+        </div>
+      </header>
+
+      <div class="cover">
+        <header class="cover__hero">
+          <p class="kicker"><span class="kicker__line"></span> a musicdisk in twelve parts <span class="kicker__line"></span></p>
+          <h1 class="wordmark" id="coverTitle">
+            <span class="wordmark__blz">blz's</span>
+            <span class="wordmark__main">whispers</span>
+          </h1>
+          <p class="cover__lede">Twelve tracks for twelve months. Four painted seasons. A quiet year of tracker music, played live from the original XM modules.</p>
+          <div class="cover__actions">
+            <button class="btn-primary" id="enterCurrentBtn" type="button">
+              <span class="btn-primary__dot" aria-hidden="true"></span>
+              <span id="enterCurrentLabel">Begin with October</span>
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            </button>
+            <p class="cover__now" id="coverNow">now in <em>fall</em> · october</p>
+          </div>
+        </header>
+
+        <div class="season-index" id="seasonIndex" aria-label="The four seasons"></div>
+
+        <footer class="cover__foot">
+          <p><span id="coverTotal">35 min 55 sec</span> of music <span class="dot">·</span> 12 FastTracker II modules <span class="dot">·</span> 4 paintings</p>
+          <p>music <em>blz</em> <span class="dot">·</span> paintings <em>mime</em> <span class="dot">·</span> 2002</p>
+        </footer>
+      </div>
+    </section>
+
+    <main class="view player-view" id="playerView" aria-label="blz's whispers player" aria-hidden="true">
+      <aside class="rail rail--seasons" aria-label="Seasons">
+        <p class="rail__label">seasons</p>
+        <div class="rail__list" id="seasonRail"></div>
+        <button class="rail__foot" id="railCoverBtn" type="button">
+          <span>the full year</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-cover"/></svg>
+        </button>
+      </aside>
+
+      <div class="stage">
+        <div class="stage__aura" aria-hidden="true"></div>
+        <div class="painting" id="painting" role="group" aria-label="Now playing">
+          <div class="painting__art">
+            <img class="painting__img" id="artA" alt="Fall painting: a lone figure on a path through a forest of red leaves, with a bench nearby." decoding="async">
+            <img class="painting__img" id="artB" alt="" aria-hidden="true" decoding="async">
+            <canvas class="painting__particles" id="particles" aria-hidden="true"></canvas>
+            <div class="painting__tone" aria-hidden="true"></div>
+            <div class="painting__vignette" aria-hidden="true"></div>
+          </div>
+
+          <div class="painting__topbar">
+            <button class="icon-btn icon-btn--glass" id="homeBtn" type="button" aria-label="Cover and programme" title="Cover &amp; programme">
+              <svg class="icon" aria-hidden="true"><use href="#i-cover"/></svg>
+            </button>
+            <div class="trackplate" aria-live="polite" aria-atomic="true">
+              <span class="trackplate__season" id="plateSeason">III · fall</span>
+              <span class="trackplate__month" id="plateMonth">October</span>
+            </div>
+            <div class="topbar__actions">
+              <button class="icon-btn icon-btn--glass" id="soundBtn" type="button" aria-label="Volume" title="Volume">
+                <svg class="icon" aria-hidden="true"><use href="#i-volume"/></svg>
+              </button>
+              <button class="icon-btn icon-btn--glass" id="fullscreenBtn" type="button" aria-label="Enter fullscreen" title="Fullscreen (F)">
+                <svg class="icon" aria-hidden="true"><use href="#i-fullscreen"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button class="page-turn page-turn--prev" id="prevMonthBtn" type="button" aria-label="Previous month">
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg>
+            <span class="page-turn__label" id="prevMonthLabel">September</span>
+          </button>
+          <button class="page-turn page-turn--next" id="nextMonthBtn" type="button" aria-label="Next month">
+            <span class="page-turn__label" id="nextMonthLabel">November</span>
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </button>
+
+          <button class="start-prompt" id="startPrompt" type="button" aria-label="Start playing">
+            <span class="start-prompt__disc">
+              <svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>
+            </span>
+            <span class="start-prompt__label">press play to begin</span>
+            <span class="start-prompt__sub">sound on · headphones recommended</span>
+          </button>
+
+          <div class="painting__bottom">
+            <div class="transport">
+              <button class="icon-btn icon-btn--transport" id="prevBtn" type="button" aria-label="Previous track" title="Previous month (←)">
+                <svg class="icon" aria-hidden="true"><use href="#i-prev"/></svg>
+              </button>
+              <button class="play-btn" id="playBtn" type="button" aria-label="Play" title="Play / pause (Space)">
+                <svg class="icon" id="playIcon" aria-hidden="true"><use href="#i-play"/></svg>
+              </button>
+              <button class="icon-btn icon-btn--transport" id="nextBtn" type="button" aria-label="Next track" title="Next month (→)">
+                <svg class="icon" aria-hidden="true"><use href="#i-next"/></svg>
+              </button>
+              <button class="icon-btn icon-btn--transport repeat-btn" id="repeatBtn" type="button" aria-label="Repeat: all months" title="Repeat: all months (R)">
+                <svg class="icon" aria-hidden="true"><use href="#i-repeat"/></svg>
+                <span class="repeat-btn__badge" id="repeatBadge" aria-hidden="true">∞</span>
+              </button>
+            </div>
+
+            <div class="progress-wrap">
+              <div class="progress__meta">
+                <span class="progress__caption">xm <span class="dot">·</span> <span id="channelCount">20</span> channels</span>
+                <span class="progress__time"><span id="timeNow">0:00</span> <span class="time-sep">/</span> <span id="timeTotal">3:08</span></span>
+              </div>
+              <div class="progress" id="progress" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="188" aria-valuenow="0" aria-valuetext="0:00 of 3:08">
+                <div class="progress__fill" id="progressFill"></div>
+                <div class="progress__handle" aria-hidden="true"></div>
+              </div>
+            </div>
+
+            <div class="levels" id="levels" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <div class="loading" id="loading" hidden>
+            <span class="spinner" aria-hidden="true"></span>
+            <span id="loadingText">loading october…</span>
+          </div>
+        </div>
+        <p class="stage__caption">
+          <span>painted by mime <span class="dot">·</span> 2002</span>
+          <span>played live from xm</span>
+        </p>
+      </div>
+
+      <aside class="rail rail--months" aria-label="Months in this season">
+        <p class="rail__label" id="monthRailLabel">fall</p>
+        <div class="rail__list" id="monthRail"></div>
+        <button class="rail__foot" id="railCoverBtn2" type="button">
+          <span>the full year</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-cover"/></svg>
+        </button>
+      </aside>
+    </main>
+  </div>
+
+  <div class="mini" id="miniPlayer" hidden>
+    <button class="mini__play icon-btn" id="miniPlayBtn" type="button" aria-label="Pause">
+      <svg class="icon" id="miniPlayIcon" aria-hidden="true"><use href="#i-pause"/></svg>
+    </button>
+    <button class="mini__info" id="miniOpenBtn" type="button" aria-label="Open the player">
+      <span class="mini__season" id="miniSeason">fall</span>
+      <span class="mini__title" id="miniTitle">October</span>
+    </button>
+    <div class="mini__bar" aria-hidden="true"><div class="mini__fill" id="miniFill"></div></div>
+    <span class="mini__time" id="miniTime"><span id="miniNow">0:00</span> <span class="time-sep">/</span> <span id="miniTotal">3:08</span></span>
+    <button class="mini__sound icon-btn" id="miniSoundBtn" type="button" aria-label="Volume" title="Volume">
+      <svg class="icon" aria-hidden="true"><use href="#i-volume"/></svg>
+    </button>
+    <button class="mini__open icon-btn" id="miniOpenArrowBtn" type="button" aria-label="Open the player" title="Open the player">
+      <svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg>
+    </button>
+  </div>
+
+  <div class="volume-pop" id="volumePop" role="dialog" aria-label="Volume" hidden>
+    <button class="icon-btn" id="volumeMuteBtn" type="button" aria-label="Mute">
+      <svg class="icon" aria-hidden="true"><use href="#i-volume"/></svg>
+    </button>
+    <input class="volume-range" id="volumeRange" type="range" min="0" max="100" step="1" value="75" aria-label="Volume">
+    <output class="volume-out" id="volumeOut" for="volumeRange">75</output>
+  </div>
+
+  <dialog class="about" id="aboutDialog">
+    <div class="about__panel">
+      <form method="dialog" class="about__close-form">
+        <button class="icon-btn about__close" type="submit" aria-label="Close" title="Close">
+          <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+        </button>
+      </form>
+      <p class="eyebrow">about the disk</p>
+      <h2 class="about__title">a year, whispered</h2>
+      <p class="about__lede">In November 2002, Razor 1911 released a small calendar of music: twelve FastTracker II modules by <em>blz</em>, each one paired with a month, and four painterly season screens by <em>mime</em>. It checked the month on your computer and opened on the right song.</p>
+      <p>This browser edition keeps the music, the images and that little seasonal trick. The XM modules play directly, not as pre-rendered audio.</p>
+
+      <dl class="about__credits">
+        <div><dt>music</dt><dd>blz</dd></div>
+        <div><dt>paintings</dt><dd>mime</dd></div>
+        <div><dt>original code &amp; direction</dt><dd>blkpanther</dd></div>
+        <div><dt>original release</dt><dd>Razor 1911, 2002</dd></div>
+        <div><dt>modules</dt><dd>12 × FastTracker II XM</dd></div>
+        <div><dt>playback</dt><dd>libopenmpt / WebAssembly</dd></div>
+      </dl>
+
+      <div class="about__links">
+        <a href="https://www.pouet.net/prod.php?which=7989" target="_blank" rel="noopener noreferrer">Pouët <svg class="icon" aria-hidden="true"><use href="#i-external"/></svg></a>
+        <a href="https://demozoo.org/productions/8245/" target="_blank" rel="noopener noreferrer">Demozoo <svg class="icon" aria-hidden="true"><use href="#i-external"/></svg></a>
+        <a href="https://files.scene.org/view/music/disks/rzr-whispers.zip" target="_blank" rel="noopener noreferrer">original download <svg class="icon" aria-hidden="true"><use href="#i-external"/></svg></a>
+      </div>
+
+      <div class="about__shortcuts">
+        <p class="about__subhead">keys</p>
+        <dl>
+          <div><dt><kbd>Space</kbd></dt><dd>play / pause</dd></div>
+          <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>previous / next month</dd></div>
+          <div><dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>volume</dd></div>
+          <div><dt><kbd>M</kbd></dt><dd>mute</dd></div>
+          <div><dt><kbd>R</kbd></dt><dd>repeat mode</dd></div>
+          <div><dt><kbd>F</kbd></dt><dd>fullscreen</dd></div>
+          <div><dt><kbd>Esc</kbd></dt><dd>back to the cover</dd></div>
+        </dl>
+      </div>
+
+      <p class="about__fine">The source screens are the original 320×320 JPEGs, gently enlarged. The painting's built-in 2002 interface is still under the new chrome. Best with headphones. <button class="secret-dot" id="secretDot" type="button" aria-label="A small hidden note">·</button></p>
+      <p class="about__secret" id="secretText" hidden>For everyone who has kept this little calendar playing since 2002 — and for blz, who still makes September own.</p>
+      <p class="about__fine">A fan restoration, not affiliated with Razor 1911. Original music and artwork remain the work of their authors. libopenmpt is BSD-licensed; chiptune3 is MIT-licensed.</p>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript>
+    <div class="noscript">whispers needs JavaScript and a local web server to play the XM modules. Run <code>start.bat</code>.</div>
+  </noscript>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
